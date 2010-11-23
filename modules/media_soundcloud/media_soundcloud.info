@@ -1,0 +1,13 @@
+; $Id: media_soundcloud.info,v 1.1 2010/07/27 21:16:45 joachim Exp $
+name = Media: Soundcloud
+description = Embedded Audio Field provider file for Soundcloud.com.
+core = 6.x
+dependencies[] = emaudio
+package = Media
+
+; Information added by drupal.org packaging script on 2010-09-29
+version = "6.x-1.1"
+core = "6.x"
+project = "media_soundcloud"
+datestamp = "1285769763"
+
