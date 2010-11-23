@@ -152,7 +152,7 @@ function emaudio_soundcloud_thumbnail($field, $item, $formatter, $node, $width, 
  * @return
  *   The html of the embedded audio.
  */
-function emaudio_soundcloud_audio($embed, $width, $height, $field, $item, &$node, $autoplay) {
+function emaudio_soundcloud_audio($embed, $width, $height, $field, $item, $node, $autoplay) {
   return theme('emaudio_soundcloud_flash', $item, $embed, $width, $height, $autoplay);
 }
 
