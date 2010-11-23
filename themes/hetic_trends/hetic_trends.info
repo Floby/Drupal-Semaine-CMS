@@ -1,0 +1,12 @@
+; $Id: bluemarine.info,v 1.4 2007/06/08 05:50:57 dries Exp $
+name = hetic_trends
+description = Theme custom pour le projet hetic_trends de HETIC par l'equipe 13 P2012
+version = VERSION
+core = 6.x
+engine = phptemplate
+
+; Information added by drupal.org packaging script on 2010-08-11
+version = "6.19"
+project = "drupal"
+datestamp = "1281559292"
+
