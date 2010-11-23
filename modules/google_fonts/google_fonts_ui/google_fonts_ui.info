@@ -1,0 +1,12 @@
+; $Id$
+name = Google Fonts Ui
+description = "Provides an interface to apply Google Fonts using CSS selectors"
+core = 6.x
+package = Google Fonts
+dependencies[] = google_fonts
+; Information added by drupal.org packaging script on 2010-10-25
+version = "6.x-1.6"
+core = "6.x"
+project = "google_fonts"
+datestamp = "1288044333"
+

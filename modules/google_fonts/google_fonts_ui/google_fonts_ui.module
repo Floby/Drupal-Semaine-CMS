@@ -1,0 +1,71 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * The Google Fonts UI module will give you an interface to add CSS dynamically.
+ *
+ * With this module, you can add the needed CSS lines using the Drupal interface.
+ * This enables people without CSS knowledge (or without access to it) 
+ * to use Google Fonts on their website.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function google_fonts_ui_menu() {
+  $items = array();
+
+  $items['admin/settings/google_fonts/rules'] = array(
+    'title' => 'Add rules',
+    'description' => 'Add CSS rules to apply these fonts without altering your stylesheets.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('google_fonts_ui_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'google_fonts_ui.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+  
+  return $items;
+}
+
+/** 
+ * Implementation of hook_init().
+ */
+function google_fonts_ui_init() {
+  if (variable_get("google_fonts_ui_css_contents", NULL)) {
+    drupal_add_css(_google_fonts_cache(variable_get("google_fonts_ui_css_contents", NULL)), 'theme');
+  }
+}
+
+/**
+ * Create the CSS file and store it locally.
+ * @param $file_contents
+ *   The contents of the CSS file
+ */
+function _google_fonts_cache($file_contents, $reset = FALSE) {
+  $directory = file_directory_path() .'/google_fonts';
+  $file_destination = $directory .'/google_fonts.css';
+  if (!file_exists($file_destination) || $reset) {
+    // Check that the files directory is writable
+    if (file_check_directory($directory, FILE_CREATE_DIRECTORY)) {
+      cache_clear_all();
+      return file_save_data($file_contents, $file_destination, FILE_EXISTS_REPLACE);
+    }
+  }
+  else {
+    return $file_destination;
+  }
+}
+
+/**
+ * Create the CSS file and store it locally.
+ * @param $file_contents
+ *   The contents of the CSS file
+ */
+function _google_fonts_cache_delete() {
+  $directory = file_directory_path() .'/google_fonts';
+  $file_destination = $directory .'/google_fonts.css';
+  file_delete($file_destination);
+}

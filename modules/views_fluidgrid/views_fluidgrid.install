@@ -1,0 +1,15 @@
+<?php // $Id: views_fluidgrid.install,v 1.1.2.1 2010/03/04 08:53:46 doublethink Exp $
+
+/**
+ * Implementaton of hook_install
+ */
+function views_fluidgrid_install() {
+  db_query("UPDATE {system} SET weight = 400 WHERE name = 'views_fluidgrid'");
+}
+
+/**
+ * Implementaton of hook_uninstall
+ */
+function views_fluidgrid_uninstall() {
+  db_query("DELETE FROM {system} WHERE name = 'views_fluidgrid'");
+}

@@ -1,0 +1,80 @@
+<?php // $Id: views_fluidgrid.module,v 1.1.2.4 2010/03/16 07:16:01 doublethink Exp $
+
+/**
+ * @file
+ * Provide a fluid grid display style for Views.
+ */
+
+/**
+ * Implementation of hook_views_api().
+ */
+function views_fluidgrid_views_api() {
+  return array('api' => 2);
+}
+
+/**
+ * Template function for views_fluidgrid
+ *
+ * @param array $vars
+ *  Array of template variables.
+ */
+function template_preprocess_views_view_fluidgrid(&$vars) {
+  $view = $vars['view'];
+  $options = $view->style_plugin->options;
+  
+  drupal_add_js(drupal_get_path('module', 'views_fluidgrid') .'/js/jquery.masonry.min.js');
+  drupal_add_css(drupal_get_path('module', 'views_fluidgrid') .'/views_fluidgrid.css');
+
+  $vars['views_fluidgrid_id'] = 'views_fluidgrid_'. $view->name .'_'. $view->current_display;
+  $vars['views_fluidgrid_item_class'] = 'views-fluidgrid-item';
+
+  $view_settings['single_mode'] = check_plain($options['single_mode']);
+  $view_settings['column_width'] = check_plain($options['column_width']);
+  $view_settings['resizeable'] = check_plain($options['resizeable']);
+  $view_settings['callback'] = $options['callback'];
+  
+  $settings = $view_settings;
+  
+  /* This looks like shit! but I had to this to make this compatable with Views Display Tabs
+   * Adding the script inline with each view helps in loading each view's settings seperatly when called via AJAX
+   * If you have another way to do this, please let me know.
+   */
+  $vars['script'] .= "\n<script type=\"text/javascript\">
+    <!--//--><![CDATA[//><!--
+    Drupal.behaviors.viewsFluidGrid = function(context) {
+      viewsFluidGrid = {}; viewsFluidGrid.".$vars['views_fluidgrid_id']." = {};
+      if (!$('#".$vars['views_fluidgrid_id']."').hasClass('views-fluidgrid-processed')) {
+        viewsFluidGrid.".$vars['views_fluidgrid_id'].".settings = ". drupal_to_js($settings) .";
+        $('#".$vars['views_fluidgrid_id']."').masonry({
+          singleMode: viewsFluidGrid.".$vars['views_fluidgrid_id'].".settings.single_mode,
+          columnWidth: viewsFluidGrid.".$vars['views_fluidgrid_id'].".settings.column_width,
+          itemSelector: '.views-fluidgrid-item:visible',
+          resizeable: viewsFluidGrid.".$vars['views_fluidgrid_id'].".settings.resizeable,
+          appendedContent: $('#".$vars['views_fluidgrid_id']."'),
+          saveOptions: false
+          },  function() { eval(viewsFluidGrid.".$vars['views_fluidgrid_id'].".settings.callback); }
+        ); $('#".$vars['views_fluidgrid_id']."').addClass('views-fluidgrid-processed');
+      }
+	  }; //--><!]]>
+    </script>";
+}
+
+/**
+ * Only returns true the first time it's called for an id
+ *
+ * @param $id
+ *  A uniqe view id.
+ *
+ * @return bool
+ *  TRUE for the first time called for a given $id
+ *  FALSE for each time after that
+ */
+function theme_views_fluidgrid_display_item($id) {
+  static $display = array();
+
+  if (!isset($display[$id])) $display[$id] = FALSE;
+  $output = $display[$id];
+  if ($display[$id] == FALSE) $display[$id] = TRUE;
+
+  return $output;
+}

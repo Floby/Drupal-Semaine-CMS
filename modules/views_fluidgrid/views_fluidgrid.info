@@ -1,0 +1,13 @@
+; $Id: views_fluidgrid.info,v 1.1 2010/03/02 09:24:50 doublethink Exp $
+name = Views Fluid Grid - jQuery Masonry
+description = Provides a fluid grid layout based on <a href="http://desandro.com/resources/jquery-masonry">jQuery Masonry</a>
+package = Views
+core = 6.x
+dependencies[] = views
+
+; Information added by drupal.org packaging script on 2010-03-16
+version = "6.x-1.3"
+core = "6.x"
+project = "views_fluidgrid"
+datestamp = "1268724108"
+

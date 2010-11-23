@@ -1,0 +1,21 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Installation file for Google Fonts UI module.
+ */
+ 
+/**
+ * Delete settings variable
+ */
+function google_fonts_ui_uninstall() {
+  foreach (variable_get('google_fonts_enabled_fonts', array()) as $font) {
+    if ($font) {
+      variable_del('google_fonts_ui_' . str_replace(' ', '_', $font));
+    }
+  }
+
+  variable_del('google_fonts_ui_css_contents');
+  _google_fonts_cache_delete();
+}

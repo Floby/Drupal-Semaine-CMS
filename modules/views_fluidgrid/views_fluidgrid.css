@@ -1,0 +1,6 @@
+/* $Id: views_fluidgrid.css,v 1.1 2010/03/02 09:24:50 doublethink Exp $ */
+
+div.views-fluidgrid-wrapper,
+div.views-fluidgrid-item-inner {
+	position:relative;
+}

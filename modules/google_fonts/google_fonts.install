@@ -1,0 +1,33 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Installation file for Google Fonts module.
+ */
+
+function google_fonts_install() {
+  drupal_set_message(st('To use the Google Fonts on your website, your have to <a href="!settings_link">select which ones to use</a>.', array('!settings_link' => url('admin/settings/google_fonts'))));
+}
+
+/**
+ * Delete settings variable
+ */
+function google_fonts_uninstall() {
+  variable_del('google_fonts_enabled_fonts');
+}
+
+/**
+ * Google Fonts now uses another array of available fonts. 
+ * Unfortunately your old settings have to be removed.
+ */
+function google_fonts_update_6000() {
+  $ret = array();
+  
+  // Delete the old array of available fonts
+  variable_del('google_fonts_enabled_fonts');
+  
+  drupal_set_message(st('Unfortunately, you have to <a href="!link">re-enable the Google Fonts</a> you want to be use on your website. Please do so.', array('!link' => url('admin/settings/google_fonts'))));
+  
+  return $ret;
+}
